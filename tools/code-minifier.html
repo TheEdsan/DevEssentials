@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Minificador y Formateador de Código gratuito. Optimiza JSON, CSS y HTML online sin registro." />
+    <title>Minificador y Formateador de Código | DevEssentials</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+      .minifier-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        height: 500px;
+      }
+      @media (max-width: 768px) {
+        .minifier-container {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+      }
+      .code-area {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      textarea {
+        flex: 1;
+        width: 100%;
+        background: rgba(0,0,0,0.3);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: #e2e8f0;
+        padding: 1.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.95rem;
+        resize: none;
+        outline: none;
+        transition: border-color 0.3s;
+      }
+      textarea:focus {
+        border-color: var(--primary);
+      }
+      .controls {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        justify-content: center;
+        grid-column: 1 / -1;
+      }
+      select {
+        background: rgba(255,255,255,0.05);
+        color: white;
+        border: 1px solid var(--border-color);
+        padding: 0.8rem;
+        border-radius: 8px;
+        font-family: var(--font-family);
+        outline: none;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--primary);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Navbar -->
+      <nav class="navbar glass">
+        <div class="logo">
+          <a href="../index.html" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+            <span class="logo-icon">✨</span>
+            <span class="logo-text">DevEssentials</span>
+          </a>
+        </div>
+        <div class="nav-links">
+          <a href="../index.html">Herramientas</a>
+        </div>
+      </nav>
+
+      <!-- Tool Header -->
+      <header class="tool-header">
+        <h1 class="gradient-text">Formateador & Minificador</h1>
+        <p class="subtitle">Optimiza o embellece tu código JSON, CSS y HTML en segundos.</p>
+      </header>
+
+      <!-- Main Content -->
+      <main class="container">
+        <div class="tool-workspace glass">
+          <div class="minifier-container">
+            <div class="code-area">
+              <h3>Entrada</h3>
+              <textarea id="inputCode" placeholder="Pega tu código aquí..."></textarea>
+            </div>
+            <div class="code-area">
+              <h3>Salida</h3>
+              <textarea id="outputCode" readonly placeholder="El resultado aparecerá aquí..."></textarea>
+            </div>
+          </div>
+          
+          <div class="controls">
+            <select id="langSelect">
+              <option value="json">JSON</option>
+              <option value="css">CSS</option>
+              <option value="html">HTML</option>
+            </select>
+            <button class="btn" id="formatBtn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-color);">Formatear</button>
+            <button class="btn" id="minifyBtn">Minificar</button>
+            <button class="btn" id="copyBtn" style="background: var(--secondary);">Copiar Resultado</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Toast Notification -->
+      <div class="toast" id="toast">Copiado al portapapeles</div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2026 DevEssentials.</p>
+      </footer>
+    </div>
+    
+    <script type="module" src="./code-minifier.js"></script>
+  </body>
+</html>
