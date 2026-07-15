@@ -18,14 +18,14 @@ const tools = [
     title: 'Generador de Sombras',
     description: 'Diseña sombras CSS (Box Shadow) complejas visualmente y copia el código al instante.',
     icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>',
-    link: '#'
+    link: '/tools/box-shadow.html'
   },
   {
     id: 'regex-tester',
     title: 'Validador de RegEx',
     description: 'Prueba tus Expresiones Regulares en tiempo real. Indispensable para programadores.',
     icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
-    link: '#'
+    link: '/tools/regex-tester.html'
   }
 ];
 

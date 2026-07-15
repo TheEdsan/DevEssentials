@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Generador de sombras CSS (Box Shadow). Diseña sombras complejas visualmente y copia el código al instante." />
+    <title>Generador de Sombras | DevEssentials</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+      .shadow-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        align-items: center;
+        min-height: 400px;
+      }
+      @media (max-width: 768px) {
+        .shadow-container {
+          grid-template-columns: 1fr;
+        }
+      }
+      .preview-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        background: var(--bg-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 3rem;
+      }
+      .preview-box {
+        width: 200px;
+        height: 200px;
+        background: var(--surface-color);
+        border-radius: 12px;
+        transition: box-shadow 0.1s;
+      }
+      .controls-area {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .control-group label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--primary);
+      }
+      .color-picker {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+      input[type="color"] {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .code-output {
+        margin-top: 2rem;
+        background: var(--bg-color);
+        padding: 1.25rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        word-break: break-all;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--text-main);
+        color: var(--bg-color);
+        padding: 1rem 1.5rem;
+        border-radius: 6px;
+        font-weight: 500;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.2s ease;
+        z-index: 1000;
+      }
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <div class="logo">
+          <a href="../index.html" style="color: inherit; text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+            <div class="logo-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
+            <span class="logo-text">DevEssentials</span>
+          </a>
+        </div>
+        <div class="nav-links">
+          <a href="../index.html">Herramientas</a>
+        </div>
+      </nav>
+
+      <!-- Tool Header -->
+      <header class="tool-header">
+        <h1>Generador de Sombras CSS</h1>
+        <p class="subtitle">Diseña sombras precisas para tus componentes web y copia el código al instante.</p>
+      </header>
+
+      <!-- Main Content -->
+      <main class="container">
+        <div class="tool-workspace">
+          <div class="shadow-container">
+            <div class="preview-area">
+              <div class="preview-box" id="previewBox"></div>
+            </div>
+            
+            <div class="controls-area">
+              <div class="control-group">
+                <label>Desplazamiento X (px) <span id="valX">0</span></label>
+                <input type="range" id="shiftX" min="-50" max="50" value="0">
+              </div>
+              <div class="control-group">
+                <label>Desplazamiento Y (px) <span id="valY">10</span></label>
+                <input type="range" id="shiftY" min="-50" max="50" value="10">
+              </div>
+              <div class="control-group">
+                <label>Desenfoque (Blur) <span id="valBlur">30</span></label>
+                <input type="range" id="blur" min="0" max="100" value="30">
+              </div>
+              <div class="control-group">
+                <label>Propagación (Spread) <span id="valSpread">-10</span></label>
+                <input type="range" id="spread" min="-50" max="50" value="-10">
+              </div>
+              <div class="control-group">
+                <label>Color de Sombra & Opacidad</label>
+                <div class="color-picker">
+                  <input type="color" id="shadowColor" value="#8b5cf6">
+                  <input type="range" id="opacity" min="0" max="100" value="50" style="flex: 1">
+                  <span id="valOpacity" style="font-size: 0.875rem; color: var(--text-muted);">0.5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="code-output" id="codeOutput">box-shadow: 0px 10px 30px -10px rgba(139, 92, 246, 0.5);</div>
+          <div style="text-align: center; margin-top: 1.5rem;">
+            <button class="btn" id="copyBtn">Copiar CSS</button>
+          </div>
+        </div>
+      </main>
+
+      <!-- Toast Notification -->
+      <div class="toast" id="toast">Copiado al portapapeles</div>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <p>&copy; 2026 DevEssentials.</p>
+      </footer>
+    </div>
+    
+    <script type="module" src="./box-shadow.js"></script>
+  </body>
+</html>
